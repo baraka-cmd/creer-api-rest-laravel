@@ -21,11 +21,11 @@ Pour la ressource `services`, nous pouvons prévoir :
 
 | Méthode | URI | Fonction |
 |---|---|---|
-| GET | /api/services | Lister les prestations |
-| GET | /api/services/{service} | Consulter une prestation |
-| POST | /api/services | Créer une prestation |
-| PUT/PATCH | /api/services/{service} | Modifier une prestation |
-| DELETE | /api/services/{service} | Supprimer une prestation |
+| GET | /api/v1/services | Lister les prestations |
+| GET | /api/v1/services/{service} | Consulter une prestation |
+| POST | /api/v1/services | Créer une prestation |
+| PUT/PATCH | /api/v1/services/{service} | Modifier une prestation |
+| DELETE | /api/v1/services/{service} | Supprimer une prestation |
 
 À ce stade, nous réalisons un CRUD pédagogique. Dans une application réelle, la création et la modification seront protégées par l'authentification, la validation et les autorisations. Ne publiez pas un CRUD ouvert en production.
 
@@ -151,7 +151,9 @@ class ServiceController extends Controller
         // défini depuis l'utilisateur authentifié au chapitre sécurité.
         $service = Service::create([
             ...$validated,
-            'professional_profile_id' => 1,
+            // Exemple volontairement provisoire : dans le projet sécurisé, ce propriétaire sera
+            // déterminé côté serveur à partir du profil lié à l'utilisateur authentifié.
+            'professional_profile_id' => $professionalProfile->id,
             'is_published' => false,
         ]);
 
@@ -178,7 +180,7 @@ class ServiceController extends Controller
     {
         $service->delete();
 
-        return response()->json(null, 204);
+        return response()->noContent();
     }
 }
 ```
@@ -231,7 +233,7 @@ Puis testez chaque requête.
 ### A. Lister
 
 - Méthode : GET
-- URL : `{{base_url}}/api/services`
+- URL : `{{base_url}}/api/v1/services`
 - Aucun corps requis.
 
 Vous devez recevoir une réponse JSON avec une collection et, en cas de pagination, les informations de navigation prévues par Laravel.
@@ -239,14 +241,14 @@ Vous devez recevoir une réponse JSON avec une collection et, en cas de paginati
 ### B. Consulter une prestation
 
 - Méthode : GET
-- URL : `{{base_url}}/api/services/1`
+- URL : `{{base_url}}/api/v1/services/1`
 
 Remplacez `1` par un identifiant réellement présent. Testez aussi un identifiant inexistant pour observer le 404.
 
 ### C. Créer
 
 - Méthode : POST
-- URL : `{{base_url}}/api/services`
+- URL : `{{base_url}}/api/v1/services`
 - En-tête : `Content-Type: application/json`
 - Corps en mode raw JSON :
 
@@ -264,7 +266,7 @@ Le statut attendu pour une création réussie est généralement `201 Created`. 
 ### D. Modifier
 
 - Méthode : PATCH
-- URL : `{{base_url}}/api/services/1`
+- URL : `{{base_url}}/api/v1/services/1`
 - Corps :
 
 ```json
@@ -278,7 +280,7 @@ PATCH permet une modification partielle. PUT est généralement utilisé pour re
 ### E. Supprimer
 
 - Méthode : DELETE
-- URL : `{{base_url}}/api/services/1`
+- URL : `{{base_url}}/api/v1/services/1`
 
 Une suppression réussie peut renvoyer `204 No Content`, c'est-à-dire un succès sans corps de réponse.
 
