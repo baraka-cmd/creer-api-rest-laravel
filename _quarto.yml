@@ -88,5 +88,3 @@ format:
         \usepackage{setspace}
         \setstretch{1.18}
         \usepackage{microtype}
-        \usepackage{titlesec}
-        \titleformat{\chapter}[display]{\normalfont\bfseries\color{teal}}{\chaptertitlename\ \thechapter}{12pt}{\Huge}
