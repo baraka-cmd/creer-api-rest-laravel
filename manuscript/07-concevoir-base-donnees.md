@@ -33,7 +33,7 @@ Exemple conceptuel de table `services` :
 | Colonne | Rôle |
 |---|---|
 | id | Identifiant unique |
-| professional_id | Propriétaire professionnel |
+| professional_profile_id | Propriétaire professionnel |
 | category_id | Catégorie principale |
 | title | Titre de la prestation |
 | description | Description |
@@ -50,7 +50,7 @@ La clé primaire identifie chaque ligne de manière unique. Laravel utilise cour
 
 Une clé étrangère relie une colonne à l'identifiant d'une autre table et aide à empêcher les références inexistantes.
 
-Exemple : une prestation appartient à un profil professionnel. La colonne `professional_id` doit référencer un professionnel existant. Sans contrainte, une erreur applicative pourrait créer une prestation liée à un profil inexistant.
+Exemple : une prestation appartient à un profil professionnel. La colonne `professional_profile_id` doit référencer un professionnel existant. Sans contrainte, une erreur applicative pourrait créer une prestation liée à un profil inexistant.
 
 ## 7.4 Comprendre les relations
 
@@ -242,3 +242,6 @@ Une base professionnelle traduit les règles métier en relations, contraintes e
 - Laravel, Seeders : https://laravel.com/docs/seeding
 - Laravel, Factories : https://laravel.com/docs/eloquent-factories
 - MariaDB, documentation : https://mariadb.com/kb/en/documentation/
+
+
+> **Convention de référence du projet fil conducteur (mise à jour éditoriale).** Les exemples d'URL du projet utilisent le préfixe public `/api/v1`. La propriété propriétaire d'un service est `professional_profile_id` et référence le profil professionnel, non directement l'identifiant utilisateur. Le serveur déduit ce propriétaire de l'utilisateur authentifié ; cette valeur ne doit jamais être acceptée aveuglément depuis le client. Les chapitres d'extension doivent respecter ces conventions ou annoncer explicitement une variante.
