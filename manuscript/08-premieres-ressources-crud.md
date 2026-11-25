@@ -60,14 +60,14 @@ class Service extends Model
         'title',
         'description',
         'price',
-        'is_published',
+        'status',
     ];
 
     protected function casts(): array
     {
         return [
             'price' => 'decimal:2',
-            'is_published' => 'boolean',
+            'status' => 'boolean',
         ];
     }
 }
@@ -75,7 +75,7 @@ class Service extends Model
 
 Le tableau `fillable` indique les attributs autorisés pour l'affectation de masse. Il ne doit contenir que les champs que l'application accepte de remplir de cette manière.
 
-Dans notre future API sécurisée, le client ne devra pas décider librement du `professional_profile_id` ni de l'état `is_published`. Ces valeurs seront déterminées par l'utilisateur authentifié et les règles métier côté serveur. Le code illustre le CRUD ; les chapitres de sécurité renforcent ensuite validation, Form Requests, Policies et tests d'accès. L'extrait de création ci-dessous montre déjà comment dériver le propriétaire côté serveur.
+Dans notre future API sécurisée, le client ne devra pas décider librement du `professional_profile_id` ni de l'état `status`. Ces valeurs seront déterminées par l'utilisateur authentifié et les règles métier côté serveur. Le code illustre le CRUD ; les chapitres de sécurité renforcent ensuite validation, Form Requests, Policies et tests d'accès. L'extrait de création ci-dessous montre déjà comment dériver le propriétaire côté serveur.
 
 ## 8.4 Créer une API Resource
 
@@ -96,7 +96,7 @@ class ServiceResource extends JsonResource
             'title' => $this->title,
             'description' => $this->description,
             'price' => $this->price,
-            'is_published' => $this->is_published,
+            'status' => $this->status,
             'created_at' => $this->created_at,
         ];
     }
@@ -122,7 +122,7 @@ class ServiceController extends Controller
     public function index()
     {
         $services = Service::query()
-            ->where('is_published', true)
+            ->where('status', 'published')
             ->latest()
             ->paginate(15);
 
@@ -131,7 +131,7 @@ class ServiceController extends Controller
 
     public function show(Service $service)
     {
-        if (!$service->is_published) {
+        if ($service->status !== 'published') {
             abort(404);
         }
 
@@ -155,7 +155,7 @@ class ServiceController extends Controller
         $service = Service::create([
             ...$validated,
             'professional_profile_id' => $professionalProfile->id,
-            'is_published' => false,
+            'status' => 'draft',
         ]);
 
         return (new ServiceResource($service))
