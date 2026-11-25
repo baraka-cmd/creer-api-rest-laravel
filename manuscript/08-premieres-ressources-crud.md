@@ -75,7 +75,7 @@ class Service extends Model
 
 Le tableau `fillable` indique les attributs autorisés pour l'affectation de masse. Il ne doit contenir que les champs que l'application accepte de remplir de cette manière.
 
-Dans notre future API sécurisée, le client ne devra pas décider librement du `professional_profile_id` ni de l'état `is_published`. Ces valeurs seront déterminées par l'utilisateur authentifié et les règles métier côté serveur. Le code du CRUD de ce chapitre est donc une étape d'apprentissage ; nous corrigerons ce point avant le périmètre sécurisé.
+Dans notre future API sécurisée, le client ne devra pas décider librement du `professional_profile_id` ni de l'état `is_published`. Ces valeurs seront déterminées par l'utilisateur authentifié et les règles métier côté serveur. Le code illustre le CRUD ; les chapitres de sécurité renforcent ensuite validation, Form Requests, Policies et tests d'accès. L'extrait de création ci-dessous montre déjà comment dériver le propriétaire côté serveur.
 
 ## 8.4 Créer une API Resource
 
@@ -147,12 +147,13 @@ class ServiceController extends Controller
             'price' => ['nullable', 'numeric', 'min:0'],
         ]);
 
-        // Exemple temporaire de CRUD : le propriétaire sera
-        // défini depuis l'utilisateur authentifié au chapitre sécurité.
+        // Dans le projet fil conducteur, la relation professionalProfile est définie
+        // sur User. Le propriétaire est dérivé de l'utilisateur connecté, jamais du body.
+        $professionalProfile = $request->user()->professionalProfile;
+        abort_unless($professionalProfile, 403, 'Un profil professionnel actif est requis.');
+
         $service = Service::create([
             ...$validated,
-            // Exemple volontairement provisoire : dans le projet sécurisé, ce propriétaire sera
-            // déterminé côté serveur à partir du profil lié à l'utilisateur authentifié.
             'professional_profile_id' => $professionalProfile->id,
             'is_published' => false,
         ]);
