@@ -1,0 +1,56 @@
+name: Build ebook PDF and EPUB
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - publication/ebook-layout
+    paths:
+      - "_quarto.yml"
+      - "ebook.css"
+      - "manuscript/**"
+      - ".github/workflows/build-ebook.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout manuscript
+        uses: actions/checkout@v4
+
+      - name: Install Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+
+      - name: Install XeLaTeX and Poppins
+        shell: bash
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y fonts-dejavu-core fontconfig
+          mkdir -p "$HOME/.local/share/fonts"
+          curl -L "https://raw.githubusercontent.com/google/fonts/main/ofl/poppins/Poppins%5Bwght%5D.ttf" \
+            -o "$HOME/.local/share/fonts/Poppins.ttf"
+          fc-cache -f
+          fc-list | grep -i Poppins
+
+      - name: Install TinyTeX
+        run: quarto install tinytex
+
+      - name: Build PDF
+        run: quarto render --to pdf
+
+      - name: Build EPUB
+        run: quarto render --to epub
+
+      - name: Upload publication files
+        uses: actions/upload-artifact@v4
+        with:
+          name: ebook-pdf-epub
+          path: |
+            _book/*.pdf
+            _book/*.epub
+          if-no-files-found: error
+          retention-days: 14
