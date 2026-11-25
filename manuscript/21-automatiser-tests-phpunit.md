@@ -44,8 +44,9 @@ Les factories permettent de créer des données de test cohérentes sans écrire
 
 ```php
 $user = User::factory()->create();
+$professionalProfile = ProfessionalProfile::factory()->for($user)->create();
 $service = Service::factory()->create([
-    'professional_profile_id' => $user->id,
+    'professional_profile_id' => $professionalProfile->id,
 ]);
 ```
 
@@ -59,7 +60,7 @@ Pour tester l’autorisation, créez plusieurs acteurs distincts plutôt que de 
 public function test_published_services_are_available(): void
 {
     Service::factory()->create([
-        'status' => 'published',
+        'is_published' => true,
     ]);
 
     $response = $this->getJson('/api/v1/services');
