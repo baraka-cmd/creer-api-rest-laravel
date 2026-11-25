@@ -42,8 +42,8 @@ Une requête contient généralement :
 Exemple :
 
 ```http
-GET /api/services?city=Goma&page=2 HTTP/1.1
-Host: api.proxiwork.test
+GET /api/v1/services?city=Goma&page=2 HTTP/1.1
+Host: api.proxiservices.test
 Accept: application/json
 Authorization: Bearer <token>
 ```
@@ -53,7 +53,7 @@ Décomposons :
 | Élément | Signification |
 |---|---|
 | `GET` | Méthode demandant la représentation d'une ressource |
-| `/api/services` | Chemin de la ressource visée |
+| `/api/v1/services` | Chemin de la ressource visée |
 | `city=Goma&page=2` | Query string : filtres ou paramètres de consultation |
 | `Host` | Nom d'hôte visé |
 | `Accept` | Types de réponse que le client accepte |
@@ -98,8 +98,8 @@ La méthode exprime l'intention du client. Pour une API REST, les méthodes doiv
 GET sert à récupérer une représentation sans demander de modification de l'état métier.
 
 ```http
-GET /api/services
-GET /api/services/42
+GET /api/v1/services
+GET /api/v1/services/42
 ```
 
 - Le premier exemple consulte une collection.
@@ -110,7 +110,7 @@ GET est généralement **safe** : il ne doit pas être conçu pour effectuer une
 Évitez donc une route comme :
 
 ```text
-GET /api/services/42/delete
+GET /api/v1/services/42/delete
 ```
 
 Une suppression ne doit pas être déclenchée par une simple consultation.
@@ -120,7 +120,7 @@ Une suppression ne doit pas être déclenchée par une simple consultation.
 POST est utilisé pour soumettre des données à une ressource afin qu'elle traite la demande. Il sert fréquemment à créer une ressource dans une collection.
 
 ```http
-POST /api/services
+POST /api/v1/services
 Content-Type: application/json
 ```
 
@@ -140,7 +140,7 @@ POST n'est pas automatiquement idempotent. Si le client répète une requête de
 PUT demande de créer ou de remplacer la représentation de la ressource ciblée, selon le contrat de l'API.
 
 ```http
-PUT /api/services/42
+PUT /api/v1/services/42
 ```
 
 Dans une API qui définit PUT comme remplacement complet, le client fournit les champs attendus pour l'ensemble de la représentation modifiable.
@@ -154,7 +154,7 @@ Ne confondez pas PUT et PATCH. Le comportement précis doit être décrit dans l
 PATCH sert à appliquer une modification partielle à une ressource.
 
 ```http
-PATCH /api/services/42
+PATCH /api/v1/services/42
 Content-Type: application/json
 ```
 
@@ -173,7 +173,7 @@ PATCH n'est pas garanti idempotent par la définition générale de la méthode 
 DELETE demande la suppression de l'association entre la ressource ciblée et sa représentation accessible.
 
 ```http
-DELETE /api/services/42
+DELETE /api/v1/services/42
 ```
 
 La réponse peut être :
@@ -278,7 +278,7 @@ Ne placez pas un secret dans un paramètre d'URL. Les URLs peuvent être conserv
 Ils identifient généralement une ressource précise :
 
 ```text
-/api/services/42
+/api/v1/services/42
 ```
 
 Dans cet exemple, `42` est l'identifiant du service.
@@ -288,7 +288,7 @@ Dans cet exemple, `42` est l'identifiant du service.
 Les paramètres de query string commencent après le caractère `?` et sont séparés par `&`.
 
 ```text
-/api/services?city=Goma&sort=price&page=2
+/api/v1/services?city=Goma&sort=price&page=2
 ```
 
 Ils sont souvent utilisés pour :
@@ -325,12 +325,12 @@ Privilégiez :
 Exemple de collection et d'élément :
 
 ```text
-GET    /api/services
-POST   /api/services
-GET    /api/services/42
-PUT    /api/services/42
-PATCH  /api/services/42
-DELETE /api/services/42
+GET    /api/v1/services
+POST   /api/v1/services
+GET    /api/v1/services/42
+PUT    /api/v1/services/42
+PATCH  /api/v1/services/42
+DELETE /api/v1/services/42
 ```
 
 Les routes ci-dessus sont une convention de conception. Leur présence ne signifie pas que chaque opération doit être accessible à tous. Les permissions seront définies et vérifiées côté serveur.
@@ -348,9 +348,9 @@ GET  /api/deleteService/42
 Plus cohérent :
 
 ```text
-GET    /api/services
-POST   /api/services
-DELETE /api/services/42
+GET    /api/v1/services
+POST   /api/v1/services
+DELETE /api/v1/services/42
 ```
 
 Pourquoi ?
@@ -381,11 +381,11 @@ Avant de programmer, dessinons les opérations principales de notre projet péda
 
 | Besoin | Méthode | Endpoint | Résultat attendu |
 |---|---|---|---|
-| Consulter les services | GET | `/api/services` | Liste paginée |
-| Consulter un service | GET | `/api/services/{id}` | Détail |
-| Créer un service | POST | `/api/services` | Ressource créée |
-| Modifier un service | PATCH | `/api/services/{id}` | Ressource mise à jour |
-| Supprimer un service | DELETE | `/api/services/{id}` | Suppression ou désactivation selon règles |
+| Consulter les services | GET | `/api/v1/services` | Liste paginée |
+| Consulter un service | GET | `/api/v1/services/{id}` | Détail |
+| Créer un service | POST | `/api/v1/services` | Ressource créée |
+| Modifier un service | PATCH | `/api/v1/services/{id}` | Ressource mise à jour |
+| Supprimer un service | DELETE | `/api/v1/services/{id}` | Suppression ou désactivation selon règles |
 
 Cette carte constitue une première version du contrat d'API. Elle sera complétée au chapitre 3 par les champs, les règles de validation, les permissions et les exemples de réponses.
 
@@ -436,7 +436,7 @@ GET  /api/removeService/9
 Dans cette requête, identifiez la méthode, le chemin, les query parameters et les headers :
 
 ```http
-GET /api/services?city=Goma&page=1 HTTP/1.1
+GET /api/v1/services?city=Goma&page=1 HTTP/1.1
 Accept: application/json
 ```
 
@@ -448,12 +448,12 @@ Accept: application/json
 
 **Exercice 3 :**
 ```text
-GET    /api/services
-POST   /api/services
-DELETE /api/services/9
+GET    /api/v1/services
+POST   /api/v1/services
+DELETE /api/v1/services/9
 ```
 
-**Exercice 4 :** méthode GET ; chemin `/api/services` ; paramètres `city=Goma` et `page=1` ; header `Accept: application/json`.
+**Exercice 4 :** méthode GET ; chemin `/api/v1/services` ; paramètres `city=Goma` et `page=1` ; header `Accept: application/json`.
 
 ## Résumé du chapitre
 
@@ -478,4 +478,4 @@ DELETE /api/services/9
 - RFC 5789 — PATCH Method for HTTP : https://www.rfc-editor.org/rfc/rfc5789
 - Microsoft Learn — REST API design best practices : https://learn.microsoft.com/en-us/azure/architecture/best-practices/api-design
 
-*Note éditoriale : valider les formulations et liens lors de la relecture technique finale.*
+
