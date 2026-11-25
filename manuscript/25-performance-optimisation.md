@@ -62,7 +62,7 @@ $services = Service::query()
     ->select([
         'id',
         'category_id',
-        'professional_id',
+        'professional_profile_id',
         'title',
         'price',
         'created_at',
@@ -86,7 +86,7 @@ Exemple de migration :
 ~~~php
 Schema::table('services', function (Blueprint $table) {
     $table->index(['status', 'category_id']);
-    $table->index(['professional_id', 'status']);
+    $table->index(['professional_profile_id', 'status']);
 });
 ~~~
 
@@ -232,3 +232,6 @@ Comparez les mesures avant et après. Notez le nombre de requêtes, la latence e
 - Les tests fonctionnels et de sécurité passent-ils après l'optimisation ?
 
 **À retenir :** optimiser une API, c'est réduire le travail inutile en préservant le contrat, la sécurité et la cohérence. Mesurez d'abord, améliorez une cause identifiée, puis mesurez de nouveau.
+
+
+> **Convention de référence du projet fil conducteur (mise à jour éditoriale).** Les exemples d'URL du projet utilisent le préfixe public `/api/v1`. La propriété propriétaire d'un service est `professional_profile_id` et référence le profil professionnel, non directement l'identifiant utilisateur. Le serveur déduit ce propriétaire de l'utilisateur authentifié ; cette valeur ne doit jamais être acceptée aveuglément depuis le client. Les chapitres d'extension doivent respecter ces conventions ou annoncer explicitement une variante.
