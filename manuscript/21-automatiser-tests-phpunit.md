@@ -45,7 +45,7 @@ Les factories permettent de créer des données de test cohérentes sans écrire
 ```php
 $user = User::factory()->create();
 $service = Service::factory()->create([
-    'professional_id' => $user->id,
+    'professional_profile_id' => $user->id,
 ]);
 ```
 
@@ -62,7 +62,7 @@ public function test_published_services_are_available(): void
         'status' => 'published',
     ]);
 
-    $response = $this->getJson('/api/services');
+    $response = $this->getJson('/api/v1/services');
 
     $response->assertOk()
         ->assertJsonStructure([
@@ -131,7 +131,7 @@ Pour chaque Form Request, testez les données valides et plusieurs données inva
 
 ```php
 $response = $this->actingAs($user, 'sanctum')
-    ->postJson('/api/services', [
+    ->postJson('/api/v1/services', [
         'title' => '',
         'description' => 'Description',
     ]);
@@ -188,3 +188,5 @@ Cette suite constitue un filet de sécurité pour les futures évolutions.
 ## À retenir
 
 Les tests automatisés transforment les règles métier et de sécurité en vérifications reproductibles. Les tests Feature couvrent le parcours HTTP, les tests unitaires isolent les calculs, et les factories rendent les scénarios maîtrisés. Une API professionnelle teste aussi les refus et les limites.
+
+> **Convention de référence du projet fil conducteur (mise à jour éditoriale).** Les exemples d'URL du projet utilisent le préfixe public `/api/v1`. La propriété propriétaire d'un service est `professional_profile_id` et référence le profil professionnel, non directement l'identifiant utilisateur. Le serveur déduit ce propriétaire de l'utilisateur authentifié ; cette valeur ne doit jamais être acceptée aveuglément depuis le client. Les chapitres d'extension doivent respecter ces conventions ou annoncer explicitement une variante.
