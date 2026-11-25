@@ -44,7 +44,7 @@ La Policy centralise la règle :
 public function view(User $user, ServiceRequest $request): bool
 {
     return $request->client_id === $user->id
-        || $request->professional_id === $user->id;
+        || $request->professional_profile_id === $user->professionalProfile?->id;
 }
 ```
 
@@ -163,3 +163,5 @@ Correction de conception : utiliser un contrôleur, une Policy et un Resource ; 
 ## À retenir
 
 Chaque objet doit avoir une règle d’accès explicite. Les identifiants ne sont jamais des permissions. Testez systématiquement les scénarios entre utilisateurs, car les tests où l’utilisateur accède à ses propres données ne détectent pas les défauts BOLA.
+
+> **Convention de référence du projet fil conducteur (mise à jour éditoriale).** Les exemples d'URL du projet utilisent le préfixe public `/api/v1`. La propriété propriétaire d'un service est `professional_profile_id` et référence le profil professionnel, non directement l'identifiant utilisateur. Le serveur déduit ce propriétaire de l'utilisateur authentifié ; cette valeur ne doit jamais être acceptée aveuglément depuis le client. Les chapitres d'extension doivent respecter ces conventions ou annoncer explicitement une variante.
