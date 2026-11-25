@@ -11,6 +11,7 @@ book:
   description: "Guide pratique de conception, développement, sécurisation, test et déploiement d'une API REST Laravel."
   date: "2026"
   chapters:
+    - index.md
     - manuscript/01-comprendre-les-api.md
     - manuscript/02-http-et-rest.md
     - manuscript/03-concevoir-le-contrat-api.md
