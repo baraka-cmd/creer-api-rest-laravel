@@ -1,0 +1,89 @@
+/* Styles de publication — identité éditoriale de l'ebook */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
+
+:root {
+  --book-teal: #0F766E;
+  --book-navy: #0F172A;
+  --book-muted: #64748B;
+  --book-paper: #FFFFFF;
+}
+
+html, body, .book, .book .book-body, .book .book-summary {
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  color: var(--book-navy);
+  line-height: 1.78;
+  font-size: 1rem;
+}
+
+h1, h2, h3, h4 {
+  color: var(--book-navy);
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+h1, .title {
+  color: var(--book-teal);
+}
+
+h2 {
+  margin-top: 2.2rem;
+  padding-bottom: .35rem;
+  border-bottom: 1px solid #DCE7E6;
+}
+
+p {
+  margin: 0 0 1rem;
+  text-align: left;
+}
+
+a, .nav-link {
+  color: var(--book-teal);
+}
+
+blockquote {
+  border-left: 4px solid var(--book-teal);
+  background: #F1F8F7;
+  padding: 1rem 1.25rem;
+  border-radius: 0 .5rem .5rem 0;
+}
+
+pre, code {
+  font-family: "Fira Code", "DejaVu Sans Mono", monospace;
+}
+
+pre {
+  border: 1px solid #E2E8F0;
+  border-radius: .55rem;
+  padding: 1rem;
+  line-height: 1.55;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  background: #EAF4F3;
+  color: var(--book-navy);
+}
+
+th, td {
+  padding: .65rem .8rem;
+  border: 1px solid #D8E3E2;
+}
+
+.callout, .callout-note {
+  border-radius: .6rem;
+}
+
+@media print {
+  body { font-size: 10.5pt; line-height: 1.65; }
+  h1, h2, h3 { page-break-after: avoid; }
+  pre, table, blockquote { page-break-inside: avoid; }
+  a { text-decoration: none; }
+}

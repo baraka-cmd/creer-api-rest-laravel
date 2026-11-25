@@ -1,0 +1,90 @@
+project:
+  type: book
+  output-dir: _book
+
+lang: fr
+
+book:
+  title: "Créer une API REST professionnelle avec Laravel"
+  subtitle: "De zéro à une API sécurisée, testée et prête pour une application mobile ou web"
+  author: "Baraka Ntwali"
+  description: "Guide pratique de conception, développement, sécurisation, test et déploiement d'une API REST Laravel."
+  date: "2026"
+  chapters:
+    - index.md
+    - manuscript/01-comprendre-les-api.md
+    - manuscript/02-http-et-rest.md
+    - manuscript/03-concevoir-le-contrat-api.md
+    - manuscript/04-preparer-environnement.md
+    - manuscript/05-creer-projet-laravel-api.md
+    - manuscript/06-architecture-laravel.md
+    - manuscript/07-concevoir-base-donnees.md
+    - manuscript/08-premieres-ressources-crud.md
+    - manuscript/09-authentification-sanctum.md
+    - manuscript/10-roles-permissions-policies.md
+    - manuscript/11-validation-professionnelle.md
+    - manuscript/12-relations-eloquent.md
+    - manuscript/13-recherche-filtres-pagination.md
+    - manuscript/14-upload-fichiers-securite.md
+    - manuscript/15-notifications-operations-metier.md
+    - manuscript/16-fondamentaux-securite-api.md
+    - manuscript/17-prevenir-acces-non-autorises.md
+    - manuscript/18-proteger-entrees-reponses.md
+    - manuscript/19-limiter-abus-attaques.md
+    - manuscript/20-tester-api-postman.md
+    - manuscript/21-automatiser-tests-phpunit.md
+    - manuscript/22-documenter-api-openapi.md
+    - manuscript/23-gerer-erreurs-reponses.md
+    - manuscript/24-architecture-services-metier.md
+    - manuscript/25-performance-optimisation.md
+    - manuscript/26-versioning-compatibilite.md
+    - manuscript/27-preparer-laravel-production.md
+    - manuscript/28-deployer-api.md
+    - manuscript/29-surveiller-maintenir-api.md
+    - manuscript/30-cahier-conception-projet-fil-conducteur.md
+    - manuscript/30-construire-tester-publier-projet-final.md
+    - manuscript/annexes-a-j-guide-pratique.md
+
+  page-footer:
+    left: "Créer une API REST professionnelle avec Laravel"
+    right: "Baraka Ntwali"
+  page-navigation: true
+
+format:
+  html:
+    theme: cosmo
+    css: ebook.css
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    code-copy: true
+    code-overflow: wrap
+    smooth-scroll: true
+  epub:
+    css: ebook.css
+    toc: true
+    number-sections: true
+  pdf:
+    documentclass: scrreprt
+    pdf-engine: xelatex
+    papersize: a4
+    fontsize: 11pt
+    mainfont: Poppins
+    monofont: "DejaVu Sans Mono"
+    geometry:
+      - top=25mm
+      - bottom=25mm
+      - left=28mm
+      - right=25mm
+    colorlinks: true
+    linkcolor: teal
+    urlcolor: teal
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    code-block-bg: true
+    include-in-header:
+      text: |
+        \usepackage{setspace}
+        \setstretch{1.18}
+        \usepackage{microtype}
