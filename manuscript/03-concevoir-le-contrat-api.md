@@ -111,11 +111,11 @@ Un endpoint est couramment compris comme une méthode HTTP associée à un chemi
 
 | Besoin | Méthode | Endpoint |
 |---|---|---|
-| Lister les services | GET | /api/services |
-| Voir un service | GET | /api/services/{id} |
-| Créer un service | POST | /api/services |
-| Modifier un service | PATCH | /api/services/{id} |
-| Supprimer un service | DELETE | /api/services/{id} |
+| Lister les services | GET | /api/v1/services |
+| Voir un service | GET | /api/v1/services/{id} |
+| Créer un service | POST | /api/v1/services |
+| Modifier un service | PATCH | /api/v1/services/{id} |
+| Supprimer un service | DELETE | /api/v1/services/{id} |
 
 Privilégiez les noms de ressources et laissez la méthode HTTP exprimer l'action.
 
@@ -125,9 +125,9 @@ Moins cohérent :
 - GET /api/deleteService/42
 
 Plus cohérent :
-- GET /api/services
-- POST /api/services
-- DELETE /api/services/42
+- GET /api/v1/services
+- POST /api/v1/services
+- DELETE /api/v1/services/42
 
 Utiliser GET pour supprimer est incorrect : une méthode de consultation ne doit pas déclencher une modification métier.
 
@@ -149,11 +149,11 @@ Exemple : création d'un service.
 | description | Professionnel | Texte validé |
 | category_id | Professionnel | Catégorie existante et autorisée |
 | price | Professionnel | Montant valide et devise définie |
-| professional_id | Serveur | Déduit du compte connecté |
+| professional_profile_id | Serveur | Déduit du compte connecté |
 | status | Serveur | Déterminé par le processus métier |
 | created_at | Serveur | Date gérée par l'application |
 
-Si le client peut envoyer professional_id, il peut tenter de créer un service au nom d'un autre compte. Si le client peut envoyer role=admin, il peut tenter de modifier son privilège. Le serveur doit déterminer les champs sensibles.
+Si le client peut envoyer professional_profile_id, il peut tenter de créer un service au nom d'un autre compte. Si le client peut envoyer role=admin, il peut tenter de modifier son privilège. Le serveur doit déterminer les champs sensibles.
 
 ## 3.7. Définir les réponses
 
@@ -219,7 +219,7 @@ Pour chaque endpoint, consignez :
 Objectif : afficher les services publics.
 
 - Méthode : GET
-- Chemin : /api/services
+- Chemin : /api/v1/services
 - Authentification : non requise pour cette consultation publique
 - Paramètres : category_id, city, search, page
 - Réponse : liste paginée des services publiés et visibles
@@ -227,7 +227,7 @@ Objectif : afficher les services publics.
 
 Exemple :
 
-    GET /api/services?city=Goma&page=1
+    GET /api/v1/services?city=Goma&page=1
     Accept: application/json
 
 Le contrat précise que page est un entier positif, que le serveur limite la taille des pages et que seuls les services autorisés à être publics sont retournés.
@@ -235,7 +235,7 @@ Le contrat précise que page est un entier positif, que le serveur limite la tai
 **Fiche : créer un service**
 
 - Méthode : POST
-- Chemin : /api/services
+- Chemin : /api/v1/services
 - Authentification : requise
 - Permission : professionnel actif et autorisé
 - Body : titre, description, catégorie et champs métier autorisés
@@ -258,7 +258,7 @@ La compatibilité du contrat est une responsabilité de conception, pas seulemen
 1. **Besoin :** un visiteur veut découvrir les services disponibles dans sa ville.
 2. **Scénario :** il choisit la ville, consulte les résultats et ouvre un détail.
 3. **Ressources :** Service, Catégorie, Professionnel.
-4. **Endpoints :** GET /api/services, GET /api/services/{id}, GET /api/categories.
+4. **Endpoints :** GET /api/v1/services, GET /api/v1/services/{id}, GET /api/v1/categories.
 5. **Paramètres :** city, category_id, page.
 6. **Règles :** services publiés seulement, paramètres validés, résultats paginés, champs privés exclus.
 7. **Vérification :** le frontend doit pouvoir comprendre le contrat sans connaître les tables internes.
@@ -301,3 +301,6 @@ Le contrat ne doit pas copier aveuglément la base de données. Il doit être co
 - Microsoft API Guidelines : https://github.com/microsoft/api-guidelines
 - OpenAPI Specification : https://spec.openapis.org/oas/latest.html
 - OWASP API Security : https://owasp.org/www-project-api-security/
+
+
+> **Convention de référence du projet fil conducteur (mise à jour éditoriale).** Les exemples d'URL du projet utilisent le préfixe public `/api/v1`. La propriété propriétaire d'un service est `professional_profile_id` et référence le profil professionnel, non directement l'identifiant utilisateur. Le serveur déduit ce propriétaire de l'utilisateur authentifié ; cette valeur ne doit jamais être acceptée aveuglément depuis le client. Les chapitres d'extension doivent respecter ces conventions ou annoncer explicitement une variante.
