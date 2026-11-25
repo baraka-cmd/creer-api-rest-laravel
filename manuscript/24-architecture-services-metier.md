@@ -109,7 +109,7 @@ class QuotationAcceptanceService
             return Order::create([
                 'quotation_id' => $quotation->id,
                 'customer_id' => $customer->id,
-                'professional_id' => $quotation->professional_id,
+                'professional_profile_id' => $quotation->professional_id,
                 'total_amount' => $quotation->amount,
                 'status' => 'pending',
             ]);
@@ -250,3 +250,6 @@ Avant de valider une fonctionnalité, vérifiez que :
 - les scénarios d'échec et les accès interdits sont testés.
 
 **À retenir :** une architecture professionnelle n'est pas une collection de couches obligatoires. C'est une organisation dans laquelle chaque règle se trouve à un endroit logique, chaque opération est testable et chaque changement peut être réalisé sans fragiliser tout le système.
+
+
+> **Convention de référence du projet fil conducteur (mise à jour éditoriale).** Les exemples d'URL du projet utilisent le préfixe public `/api/v1`. La propriété propriétaire d'un service est `professional_profile_id` et référence le profil professionnel, non directement l'identifiant utilisateur. Le serveur déduit ce propriétaire de l'utilisateur authentifié ; cette valeur ne doit jamais être acceptée aveuglément depuis le client. Les chapitres d'extension doivent respecter ces conventions ou annoncer explicitement une variante.
