@@ -60,7 +60,7 @@ Pour tester l’autorisation, créez plusieurs acteurs distincts plutôt que de 
 public function test_published_services_are_available(): void
 {
     Service::factory()->create([
-        'is_published' => true,
+        'status' => 'published',
     ]);
 
     $response = $this->getJson('/api/v1/services');
