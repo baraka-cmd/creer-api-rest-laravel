@@ -109,7 +109,7 @@ class QuotationAcceptanceService
             return Order::create([
                 'quotation_id' => $quotation->id,
                 'customer_id' => $customer->id,
-                'professional_profile_id' => $quotation->professional_id,
+                'professional_profile_id' => $quotation->request->professional_profile_id,
                 'total_amount' => $quotation->amount,
                 'status' => 'pending',
             ]);
@@ -118,7 +118,7 @@ class QuotationAcceptanceService
 }
 ~~~
 
-Ce code est pédagogique : dans une application réelle, il faut adapter les relations, les statuts, la gestion des exceptions et les contraintes de base de données au modèle existant. Le montant provient ici du devis enregistré côté serveur ; il ne doit jamais être repris aveuglément depuis le navigateur.
+**Extension hors MVP :** les modèles Quotation et Order, leurs migrations et relations ne font pas partie du cahier MVP ProxiServices. Cet extrait ne doit pas être copié sans implémenter et tester ce sous-domaine. Il suppose que la demande conserve le profil professionnel destinataire dans `professional_profile_id`; adaptez le nom à la relation effectivement choisie. Le montant provient ici du devis enregistré côté serveur ; il ne doit jamais être repris aveuglément depuis le navigateur.
 
 La transaction garantit que les changements liés sont validés ensemble. Le verrouillage peut protéger une transition sensible contre deux acceptations simultanées, mais son usage doit être étudié avec les transactions, les index et le moteur de base de données. Un verrou n'est pas un remplacement à une contrainte métier ou à une stratégie d'idempotence.
 
