@@ -48,7 +48,6 @@ book:
   page-footer:
     left: "Créer une API REST professionnelle avec Laravel"
     right: "Baraka Ntwali"
-
   page-navigation: true
 
 format:
@@ -61,12 +60,10 @@ format:
     code-copy: true
     code-overflow: wrap
     smooth-scroll: true
-
   epub:
     css: ebook.css
     toc: true
     number-sections: true
-
   pdf:
     documentclass: scrreprt
     pdf-engine: xelatex
@@ -88,8 +85,8 @@ format:
     code-block-bg: true
     include-in-header:
       text: |
-        \\usepackage{setspace}
-        \\setstretch{1.18}
-        \\usepackage{microtype}
-        \\usepackage{titlesec}
-        \\titleformat{\\chapter}[display]{\\normalfont\\bfseries\\color{teal}}{\\chaptertitlename\\ \\thechapter}{12pt}{\\Huge}
+        \usepackage{setspace}
+        \setstretch{1.18}
+        \usepackage{microtype}
+        \usepackage{titlesec}
+        \titleformat{\chapter}[display]{\normalfont\bfseries\color{teal}}{\chaptertitlename\ \thechapter}{12pt}{\Huge}
