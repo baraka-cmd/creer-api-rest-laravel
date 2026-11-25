@@ -38,7 +38,7 @@ Exemple conceptuel de table `services` :
 | title | Titre de la prestation |
 | description | Description |
 | price | Prix annoncé, si applicable |
-| is_published | État de publication |
+| status | État du service (draft, published, suspended) |
 | created_at | Date de création |
 | updated_at | Date de modification |
 
@@ -123,10 +123,10 @@ Schema::create('services', function (Blueprint $table) {
     $table->string('title', 150);
     $table->text('description');
     $table->decimal('price', 12, 2)->nullable();
-    $table->boolean('is_published')->default(false);
+    $table->string('status', 20)->default('draft');
     $table->timestamps();
 
-    $table->index(['is_published', 'category_id']);
+    $table->index(['status', 'category_id']);
 });
 ```
 
