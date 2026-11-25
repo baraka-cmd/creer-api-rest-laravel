@@ -132,7 +132,7 @@ public function test_user_cannot_view_another_users_request(): void
     ]);
 
     $this->actingAs($bob, 'sanctum')
-        ->getJson('/api/requests/'.$request->id)
+        ->getJson('/api/v1/requests/'.$request->id)
         ->assertForbidden();
 }
 ```
@@ -151,7 +151,7 @@ Complétez le test par :
 Code à risque :
 
 ```php
-Route::get('/requests/{id}', function ($id) {
+Route::get('/api/v1/requests/{id}', function ($id) {
     return ServiceRequest::findOrFail($id);
 })->middleware('auth:sanctum');
 ```
